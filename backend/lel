@@ -1,0 +1,61 @@
+/* var workbook = xlsx.readFile('./uploads/servicoDocente.xlsx');
+    var sheet_name_list = workbook.SheetNames;
+    var xlData = xlsx.utils.sheet_to_json(workbook.Sheets[sheet_name_list[0]]);
+
+    //addAllProfessores(xlData); //criar isto
+    //addAllCadeiras(xlData); // criar isto
+    
+    for(var i = 0; i < xlData.length; i++){
+
+        var linha = xlData[i];
+
+        var codigo_uc = linha.CODIGO_UC;
+        var uc = linha.UNIDADE_CURRICULAR;
+        var professor = linha.SERVICO_DOCENTE;
+        var regente = linha.REGENTE;
+        var tpProfessor = linha.TIPO_DE_PROFESSOR;
+
+
+        var p =  getProfessorByName(professor);
+        var uC =  getCadeiraByCodigo(codigo_uc);
+
+        // professor nao existe
+        if(p == null){
+            p =  addProfessor(professor, tpProfessor);
+        }
+
+        // cadeira nao existe
+        if(uC == null){
+            uC =  addCadeira(codigo_uc, uc);
+        }
+
+        //prof existe e cadeira nao
+        if(p != null && uc == null){
+            uC =  addCadeira(codigo_uc, uc);
+        }
+
+        //prof nao existe mas cadeira sim
+        if(p == null && uc != null){
+            p =  addProfessor(professor, tpProfessor);
+        }
+
+        // prof e cadeira existem
+        if(uc != null && p != null){
+            if(regente != null){
+                addProfCadeira(c, p, true);
+            } else{
+                addProfCadeira(c, p, false);
+            }
+        }
+
+    } */
+
+
+
+
+    // c - cadeira
+// p - professor
+// r - regente (true/false)
+async function addProfCadeira(c, p, r){
+    new ProfessorUC({cadeira:c._id, professor:p._id, regente: r});
+}

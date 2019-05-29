@@ -1,0 +1,29 @@
+<!-- <<label for="singleFile">Upload file</label>
+<input id="singleFile" type="file" [fileUploadInputFor]= "fileUploadQueue"/>
+<div [fileUploadInputFor]="fileUploadQueue" class="upload-drop-zone"></div>
+<br>
+ 
+<mat-file-upload-queue #fileUploadQueue
+    [fileAlias]="'file'"
+    [httpUrl]="'http://localhost:3003/uploadCalendario'">
+ 
+    <mat-file-upload [file]="file" [id]="i" *ngFor="let file of fileUploadQueue.files; let i = index"></mat-file-upload>
+</mat-file-upload-queue>> -->
+
+<h1>Upload Ficheiro excel</h1>
+<input style = 'display: none' type="file" (change)='onFileSelected($event)' #fileInput>
+<button type="button" (click)='fileInput.click()'>Select File</button>
+<button type="button" (click)='onUpload()'>Upload</button>
+
+<h1>Flat UI - Custom Input:file</h1>
+<h2>With only CSS</h2>
+
+<form action="#">
+  <p class="file">
+    <input type="file" name="file" id="file" (change)='onFileSelected($event)'/>
+    <label for="file" (click)='onUpload()'>Upload</label>
+  </p>
+</form>
+
+<!-- <p class="txtcenter">It's just a test, not really usable.<br />Works on IE &gt; 8 and modern browsers</p>
+<p class="txtcenter copy">by <a href="https://twitter.com/geoffrey_crofte">@geoffrey_crofte</a><br />see also <a href="https://codepen.io/CreativeJuiz/pen/zqKtp">CSS custom Checkboxes</a></p> -->

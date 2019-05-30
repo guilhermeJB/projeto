@@ -26,7 +26,15 @@ export class LinkerService {
 
   uploadFile(file){
     return this.http.post(`${this.uri}/uploadDocentes`, file).subscribe((res) => {
-      console.log(res);
+    });
+  }
+
+  login(data){
+    return this.http.get(`${this.uri}/login/${data}`);
+  }
+
+  addAdmin(login){
+    return this.http.post(`${this.uri}/login/add`, login).subscribe((res) => {
     });
   }
 }

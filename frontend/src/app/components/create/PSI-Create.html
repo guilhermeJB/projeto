@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<style>
+.header {
+    font-size: 30px;
+    font-family: "Roboto", sans-serif;
+    color: #FFFFFF;
+}
+
+.upload {
+    cursor: pointer;
+}
+
+.content1 {
+  background: #FFFFFF;
+  max-width: 360px;
+  margin: 170px auto 0px;
+  padding: 45px;
+  text-align: center;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+}
+
+.content2 {
+  background: #0C4DA2;
+  margin: -65px -45px 0px;
+  text-align: center;
+}
+
+.imagemfcul{
+  background-color: #FFFFFF;
+  position: relative;
+  height: 135px;
+}
+
+body {
+  background-image: url("background.jpg");
+  background-color: #FFFFFF; /* fallback for old browsers */
+  font-family: "Roboto", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+</style>
+</head>
+
+<body>
+<div class="imagemfcul">
+ <img src="logo_fcul.png" alt="Logo FCUL" heigth="30%" width="30%">
+ <img src="logo_app.png" alt="Logo App" height="100%" weight="100%" align="right">
+</div>
+<div class="content1">
+    <div class="content2">
+		<h1 class="header">File Uploader</h1>
+    </div>
+	<input type="file" (change)='onFileSelected($event)'>
+	<button class="upload" type="button" (click)='onUpload()'>Upload</button>
+</div>
+</body>
+
+</html>

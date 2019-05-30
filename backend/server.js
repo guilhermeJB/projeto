@@ -10,6 +10,7 @@ const fs = require('fs');
 var Professor = require('./models/professor');
 var UnidadeCurricular = require('./models/unidadeCurricular');
 var ProfessorUC = require('./models/professorUc');
+var Login = require('./models/login');
 
 const app = express();
 const router = express.Router();
@@ -63,7 +64,7 @@ router.route('/unCurriculares').get((req, res) => {
 
 
 // Todos os adds
-router.route('/professores/add').post((req, res)=> {
+router.route('/professores/add').post(async(req, res)=> {
     let prof = new Professor(req.body);
 
     var professor = await getProfessorByName(prof.nome);
@@ -98,6 +99,26 @@ router.route('/unCurriculares/add').post(async(req, res)=> {
     
 });
 
+router.route('/login/:username').get(async(req, res) => {
+
+    var login = await Login.find({username: req.params.username}, (err, login) => {
+        if (err)
+            res.status(400).send("Username nao existente.");
+        else
+            res.status(200).json(login);        
+    }).exec();
+});
+
+router.route('/login/add').post((req,res) => {
+    
+    new Login(req.body).save().then(log => {
+        res.status(200).json({'log': 'Added'});
+    })
+    .catch(err => {
+        res.status(400).send('Falha a criar login');
+    });
+});
+
 
 
 
@@ -126,22 +147,19 @@ router.route('/uploadDocentes').post((req, res) => {
 
         file.on('end', function (data) {
             writeStream.end();
-            insertData(nome, path);
+            if(nome.match('servicoDocente')){
+                bdData(path,true);
+            } else {
+                bdData(path, false);
+            }
         });
 
         res.status(200).json("success");
     });
 });
 
-function insertData(nome, path){
-    if(nome.match('servicoDocente')){
-        addProfessor(path);
-    } else {
-        //add exame
-    }
-}
 
-function addProfessor(path){
+function bdData(path, bool){
     var dir = __dirname.concat('/');
     var finalPath = dir.concat(path);
 
@@ -157,9 +175,12 @@ function addProfessor(path){
                 for(var i = 0; i < xlData.length; i++){
 
                     var linha = xlData[i];
-
-                    await addData(true, linha);
-                    await addData(false, linha);
+                    if(bool){
+                        await addData(true, linha);
+                        await addData(false, linha);
+                    } else {
+                        await addExames(linha);
+                    }
                 }
         });
     }, 500);
@@ -213,6 +234,10 @@ async function addData(type, linha){
               });;
         }
     }
+}
+
+async function addExames(){
+    console.log("here");
 }
 
 async function getProfessorByName(name) {

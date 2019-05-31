@@ -13,7 +13,7 @@ import { LinkerService } from '../../services/linker.service';
 export class ProfessoresComponent implements OnInit {
 
   professores: Professor[];
-  colunas = ['nome'];
+  colunas = ['nome', 'id'];
 
   constructor(private linkerService: LinkerService, private router: Router) { }
 

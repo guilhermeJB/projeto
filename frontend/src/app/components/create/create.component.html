@@ -1,38 +1,48 @@
-<!-- <<label for="singleFile">Upload file</label>
-<input id="singleFile" type="file" [fileUploadInputFor]= "fileUploadQueue"/>
-<div [fileUploadInputFor]="fileUploadQueue" class="upload-drop-zone"></div>
-<br>
- 
-<mat-file-upload-queue #fileUploadQueue
-    [fileAlias]="'file'"
-    [httpUrl]="'http://localhost:3003/uploadCalendario'">
- 
-    <mat-file-upload [file]="file" [id]="i" *ngFor="let file of fileUploadQueue.files; let i = index"></mat-file-upload>
-</mat-file-upload-queue>> -->
+<!DOCTYPE html>
+<html>
 
-<!-- <h1>Upload Ficheiro excel</h1>
-<input style = 'display: none' type="file" (change)='onFileSelected($event)' #fileInput>
-<button type="button" (click)='fileInput.click()'>Select File</button>
-<button type="button" (click)='onUpload()'>Upload</button>
+<head>
+<h1 align="center"> Adicione um ficheiro </h1>
 
-<h1>Flat UI - Custom Input:file</h1>
-<h2>With only CSS</h2>
+<style>
+.header {
+    font-size: 30px;
+    font-family: "Roboto", sans-serif;
+    color: #FFFFFF;
+}
 
-<form action="#">
-  <p class="file">
-    <input type="file" name="file" id="file" (change)='onFileSelected($event)'/>
-    <label for="file" (click)='onUpload()'>Upload</label>
-  </p>
-</form> -->
+.upload {
+    cursor: pointer;
+}
 
-<!-- <p class="txtcenter">It's just a test, not really usable.<br />Works on IE &gt; 8 and modern browsers</p>
-<p class="txtcenter copy">by <a href="https://twitter.com/geoffrey_crofte">@geoffrey_crofte</a><br />see also <a href="https://codepen.io/CreativeJuiz/pen/zqKtp">CSS custom Checkboxes</a></p> -->
+.content1 {
+  background: #FFFFFF;
+  max-width: 360px;
+  margin: 170px auto 0px;
+  padding: 45px;
+  text-align: center;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+}
 
+.content2 {
+  background: #0C4DA2;
+  margin: -65px -45px 0px;
+  text-align: center;
+}
+
+
+body {
+  background-color: #FFFFFF; /* fallback for old browsers */
+  font-family: "Roboto", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+</style>
+</head>
 
 <body>
 <div class="imagemfcul">
- <img src="../../../assets/images/logo_fcul.png" alt="Logo FCUL" heigth="30%" width="30%">
- <img src="../../../assets/images/logo_app.png" alt="Logo App" height="100%" weight="100%" align="right">
 </div>
 <div class="content1">
     <div class="content2">
@@ -42,3 +52,5 @@
 	<button class="upload" type="button" (click)='onUpload()'>Upload</button>
 </div>
 </body>
+
+</html>

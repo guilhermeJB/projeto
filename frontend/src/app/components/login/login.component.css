@@ -1,8 +1,11 @@
+<<<<<<< HEAD
 /* @import url(https://fonts.googleapis.com/css?family=Roboto:300);
+=======
+>>>>>>> a8bf88576f1bb85bf571c1f10b9ae32f6ea7ae4a
 
 .login-page {
   width: 360px;
-  padding: 3% 0 0;
+  padding: 5% 0 0;
   margin: auto;
 }
 .form {
@@ -21,25 +24,26 @@
   background: #e6e6e6;
   width: 100%;
   border: 0;
-  margin: 0 0 5px;
-  padding: 10px;
+  margin: 0 0 15px;
+  padding: 15px;
   box-sizing: border-box;
-  font-size: 12px;
+  font-size: 14px;
 }
 .form button {
   font-family: "Roboto", sans-serif;
   text-transform: uppercase;
   outline: 0;
+  background: #0C4DA2;
   width: 100%;
   border: 0;
-  padding: 10px;
+  padding: 15px;
   color: #FFFFFF;
-  font-size: 12px;
+  font-size: 14px;
   transition: all 0.3 ease;
   cursor: pointer;
 }
 .form button:hover,.form button:active,.form button:focus {
-  background: #EF691A;
+  background: #408df2;
 
 }
 
@@ -78,21 +82,19 @@
 }
 .header1{
   text-align: center;
-  color: #6D4E00;
+  color: #0C4DA2;
   padding-bottom: 10px
 }
-.imagemfcul{
-  background-color: #ffffff;
-  position: relative;
-  height: 30%;
-}
+
+
 body {
-  background-color: #D54F00;
-  height: 500px;
+
+  background-color: #ffffff; /* fallback for old browsers */
   font-family: "Roboto", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+<<<<<<< HEAD
 
 .adminBtn {
   margin-top: 5px;
@@ -199,3 +201,5 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+=======
+>>>>>>> a8bf88576f1bb85bf571c1f10b9ae32f6ea7ae4a

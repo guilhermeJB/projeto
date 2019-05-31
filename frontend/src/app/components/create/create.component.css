@@ -25,15 +25,7 @@ margin: -65px -45px 0px;
 text-align: center;
 }
 
-.imagemfcul{
-background-color: #FFFFFF;
-position: relative;
-height: 135px;
-}
-
 body {
-background-image: url("../../../assets/images/background.jpg");
-background-color: #FFFFFF; /* fallback for old browsers */
 font-family: "Roboto", sans-serif;
 -webkit-font-smoothing: antialiased;
 -moz-osx-font-smoothing: grayscale;

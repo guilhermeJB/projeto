@@ -37,4 +37,21 @@ export class LinkerService {
     return this.http.post(`${this.uri}/login/add`, login).subscribe((res) => {
     });
   }
+
+  criaCalendario(){
+    return this.http.get(`${this.uri}/criaCalendario`).subscribe((res) => {
+    });
+  }
+
+  getVigias(id){
+    return this.http.get(`${this.uri}/getVigias/${id}`);
+  }
+
+  getExames(){
+    return this.http.get(`${this.uri}/exames`);
+  }
+
+  getExameById(id){
+    return this.http.get(`${this.uri}/exames/${id}`);
+  }
 }

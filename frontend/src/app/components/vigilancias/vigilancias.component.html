@@ -1,4 +1,24 @@
-
+<button mat-raised-button color="accent" routerLink="/index">Back</button>&nbsp;
 <div>
-    works!
-    </div>
+        <br>
+        <mat-card>
+          <table mat-table [dataSource]='vigias'>
+            <ng-container matColumnDef="exame">
+              <th mat-header-cell *matHeaderCellDef>Disciplina:</th>
+              <td mat-cell *matCellDef="let element"> {{element.exame}} </td>
+            </ng-container>
+            <ng-container matColumnDef='che'>
+                <th mat-header-cell *matHeaderCellDef> </th>
+                <td mat-cell *matCellDef="let element"> </td>
+            </ng-container>
+
+            <ng-container matColumnDef="professor">
+                <th mat-header-cell *matHeaderCellDef>Professor:</th>
+                <td mat-cell *matCellDef="let element"> {{element.professor}} </td>
+            </ng-container>
+      
+            <tr mat-header-row *matHeaderRowDef='colunas'></tr>
+            <tr mat-row *matRowDef='let row; columns: colunas;'></tr>
+          </table>
+        </mat-card>
+      </div>

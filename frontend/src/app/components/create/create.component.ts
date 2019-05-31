@@ -28,4 +28,9 @@ export class CreateComponent implements OnInit {
     
     this.linkerService.uploadFile(fd);
   }
+
+  criaCalendario(){
+    this.linkerService.criaCalendario();
+
+  }
 }

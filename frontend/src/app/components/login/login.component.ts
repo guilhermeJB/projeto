@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MatTableDataSource } from '@angular/material'; 
 
 import { Login } from '../../interfaces/loginData.model';
 import { LinkerService } from '../../services/linker.service';
+import { Professor } from '../../interfaces/professor.model';
 
 @Component({
   selector: 'app-login',
@@ -14,12 +15,15 @@ export class LoginComponent implements OnInit {
 
   username:String;
   password:String;
-  theLg:any;
+  loginDetails: any = {};
 
-  constructor(private linkerService: LinkerService, private router: Router) { }
+  constructor(private linkerService: LinkerService, private router: Router, private route: ActivatedRoute) {
 
-  ngOnInit() {
-  }
+   }
+
+   ngOnInit(){
+
+   }
 
   inputUser(event){
     this.username = event.target.value;
@@ -29,25 +33,22 @@ export class LoginComponent implements OnInit {
     this.password = event.target.value;
   }
 
-  async login(){
-    let result = false;
-    let login;
-    await this.linkerService.login(this.username).subscribe(res => {
-      this.theLg = res;
-
-      console.log(this.username == this.theLg[0].username);
-      console.log(typeof this.username);
-      console.log(typeof this.theLg[0].username);
-          result =( (this.username == this.theLg[0].username) && (this.password == this.theLg[0].password) );   //false nao sei pq, resolver
+  login(e){
+    
+    let result = true;
+    this.linkerService.login(this.username).subscribe(res => {
+      this.loginDetails = res;
     });
-    console.log(result);
+
+    console.log(this.loginDetails);
+
     if(result){
       //logado
-      this.router.navigate['/index'];
+      this.direciona(true);
       ;
     }else{
       //incorrect
-      this.router.navigate['/login'];
+      this.direciona(false);
     }
   }
 
@@ -56,8 +57,14 @@ export class LoginComponent implements OnInit {
       username: 'admin',
       password: 'admin'
     }
-
     return this.linkerService.addAdmin(login);
+  }
+
+  direciona(type){
+    if(type)
+      this.router.navigate([`/index`]);
+    else
+      this.router.navigate([`/login`]);
   }
 
 }

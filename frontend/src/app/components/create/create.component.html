@@ -1,46 +1,5 @@
-<!DOCTYPE html>
-<html>
 
-<head>
-<h1 align="center"> Adicione um ficheiro </h1>
-
-<style>
-.header {
-    font-size: 30px;
-    font-family: "Roboto", sans-serif;
-    color: #FFFFFF;
-}
-
-.upload {
-    cursor: pointer;
-}
-
-.content1 {
-  background: #FFFFFF;
-  max-width: 360px;
-  margin: 170px auto 0px;
-  padding: 45px;
-  text-align: center;
-  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
-}
-
-.content2 {
-  background: #0C4DA2;
-  margin: -65px -45px 0px;
-  text-align: center;
-}
-
-
-body {
-  background-color: #FFFFFF; /* fallback for old browsers */
-  font-family: "Roboto", sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-</style>
-</head>
-
+<button mat-raised-button color="accent" routerLink="/index">Back</button>&nbsp;
 <body>
 <div class="imagemfcul">
 </div>
@@ -49,8 +8,7 @@ body {
 		<h1 class="header">File Uploader</h1>
     </div>
 	<input type="file" (change)='onFileSelected($event)'>
-	<button class="upload" type="button" (click)='onUpload()'>Upload</button>
+  <button class="upload" type="button" (click)='onUpload()'>Upload</button>
+  <button class="upload" type="button" (click)='criaCalendario()'>Criar Calendario</button>
 </div>
 </body>
-
-</html>

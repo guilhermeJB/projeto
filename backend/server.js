@@ -27,7 +27,7 @@ app.use(bodyParser.urlencoded());
 app.use(bodyParser.json());
 
 
-mongoose.connect('mongodb://localhost:27017/teste',  {useNewUrlParser: true}, (err) => {  //mongodb://psi003:psi003@localhost:27017/psi003?retryWrites=true&authSource=psi003
+mongoose.connect('mongodb://psi003:psi003@localhost:27017/psi003?retryWrites=true&authSource=psi003',  {useNewUrlParser: true}, (err) => {  //mongodb://psi003:psi003@localhost:27017/psi003?retryWrites=true&authSource=psi003
     if(err)
         console.log(err);
     else
@@ -69,13 +69,22 @@ router.route('/exames').get((req, res) => {
     });
 });
 
-router.route('/vigias').get((req, res) => {
-    Vigias.find((err, vg) => {
-        if (err)
+router.route('/exames/:id').get((req, res) => {
+    Exame.find({_id: req.params.id}, (err, ex) => {
+        if(err)
             console.log(err);
         else
-            res.json(vg);
-    });
+            res.json(ex)
+    }).exec();
+});
+
+router.route('/getVigias/:id').get((req, res) => {
+    Vigias.find({professor: req.params.id}, (err, vg) => {
+        if(err)
+            console.log(err);
+        else
+            res.json(vg)
+    }).exec();
 });
 
 
@@ -120,16 +129,57 @@ router.route('/unCurriculares/add').post(async(req, res)=> {
 });
 
 router.route('/login/:username').get(async(req, res) => {
-
     var login = await Login.find({username: req.params.username}, (err, login) => {
+        console.log(login);
         if (err)
             res.status(400).send("Username nao existente.");
         else
-            res.status(200).json(login);        
+            res.json(login);        
     }).exec();
 });
 
 router.route('/login/add').post((req,res) => {
+    
+    new Login(req.body).save().then(log => {
+        res.status(200).json({'log': 'Added'});
+    })
+    .catch(err => {
+        res.status(400).send('Falha a criar login');
+    });
+});
+
+router.route('/criaCalendario').get(async (req,res) => {
+
+    
+    let cadeiraExame = await Exame.find({}).exec();
+
+    cadeiraExame.forEach(async (data)=> {
+        
+        var chair = await getCadeiraByCodigo(data.codigo);
+        
+        var nomeFBD = await ProfessorUC.find({cadeira: chair[0]._id}).exec();
+
+        var prof = await Professor.findById(nomeFBD[0].professor._id).exec();
+
+        console.log(prof);
+        var vigia = await Vigias.find({professor: prof._id}).exec();
+        var vigiaExama = await Vigias.find({exame: data._id}).exec();
+
+        console.log(vigia);
+        
+        if (!vigia.length) {
+            //ainda nao tem vigia
+            new Vigias({
+                exame: data._id,
+                professor: prof._id
+            }).save();
+        }
+    });
+
+    res.status(200).json('Success');
+});
+
+router.route('/professores/add').post((req,res) => {
     
     new Login(req.body).save().then(log => {
         res.status(200).json({'log': 'Added'});
@@ -196,8 +246,23 @@ function bdData(path, bool){
 
                     var linha = xlData[i];
                     if(bool){
-                        await addData(true, linha);
-                        await addData(false, linha);
+                        var prof = await addData(true, linha);
+                        var disciplina = await addData(false, linha);
+                        
+
+                        if(linha.REGENTE != undefined){
+                            new ProfessorUC({
+                                cadeira: disciplina._id,
+                                professor: prof._id,
+                                regente: true
+                            }).save();
+                        }else {
+                            new ProfessorUC({
+                                cadeira: disciplina._id,
+                                professor: prof._id,
+                                regente: false
+                            }).save();
+                        }
                     } else {
                         await addExames(linha);
                     }
@@ -221,6 +286,7 @@ async function addData(type, linha){
                     cargo: tpProfessor
                 }).save();
             }
+        return fromBD;
 
     }else {
         var codigo_uc = linha.CODIGO_UC;
@@ -234,15 +300,16 @@ async function addData(type, linha){
                 nome: uc
             }).save();
         }
+        return fromBD;
     }
 }
 
 async function addExames(linha){
 
+    var date = new Date(linha.Data);
     var horaIn = getHora(linha.Hora_Inicio);
     var horaOut = getHora(linha.Hora_Fim);
 
-    console.log(hInicio);
     var exameCurr = await Exame.find({codigo: linha.Codigo, data: date, horaInicio: horaIn,
         horaFim: horaOut}).exec();
 
@@ -252,10 +319,7 @@ async function addExames(linha){
 
 
         if(!disciplina.length){
-            disciplina = await new UnidadeCurricular({
-                codigo: linha.Codigo,
-                nome: linha.Disciplina
-            }).save();
+            return;
         }
 
         return new Exame({
@@ -284,10 +348,9 @@ function getHora(hora) {
     var hour = momentDate.hours();
     var minutes = momentDate.minutes();
     var seconds = momentDate.seconds();
-    console.log(hour,minutes,seconds);
     
     // or you can use `.format`:
-    console.log(momentDate.format("hh:mm:ss"));
+    return momentDate.format("hh:mm:ss");
 }
 
 async function getProfessorByName(name) {

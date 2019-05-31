@@ -1,32 +1,32 @@
-@import url(https://fonts.googleapis.com/css?family=Roboto:300);
-
 .header {
-  font-size: 30px;
-  font-family: "Roboto", sans-serif;
-  color: #FFFFFF;
+    font-size: 30px;
+    font-family: "Roboto", sans-serif;
+    color: #FFFFFF;
 }
 
 .upload {
-  cursor: pointer;
+    cursor: pointer;
 }
 
 .content1 {
-background: #FFFFFF;
-max-width: 360px;
-margin: 170px auto 0px;
-padding: 45px;
-text-align: center;
-box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+  background: #FFFFFF;
+  max-width: 360px;
+  margin: 170px auto 0px;
+  padding: 45px;
+  text-align: center;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
 }
 
 .content2 {
-background: #0C4DA2;
-margin: -65px -45px 0px;
-text-align: center;
+  background: #0C4DA2;
+  margin: -65px -45px 0px;
+  text-align: center;
 }
 
+
 body {
-font-family: "Roboto", sans-serif;
--webkit-font-smoothing: antialiased;
--moz-osx-font-smoothing: grayscale;
+  background-color: #FFFFFF; /* fallback for old browsers */
+  font-family: "Roboto", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }

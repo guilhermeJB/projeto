@@ -21,7 +21,7 @@ import { ProfessoresComponent } from './components/professores/professores.compo
 import { LinkerService } from './services/linker.service';
 
 
-
+  
 const routes: Routes = [
   { path: 'create', component: CreateComponent },
   { path: 'edit/:id', component: EditComponent },

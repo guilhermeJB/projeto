@@ -5,12 +5,15 @@ var mongoose = require('mongoose');
 var xlsx = require('xlsx');
 const bb = require('busboy');
 const fs = require('fs');
+const moment = require('moment')
 
 
 var Professor = require('./models/professor');
 var UnidadeCurricular = require('./models/unidadeCurricular');
 var ProfessorUC = require('./models/professorUc');
 var Login = require('./models/login');
+var Vigias = require('./models/vigilancias');
+var Exame = require('./models/exame');
 
 const app = express();
 const router = express.Router();
@@ -57,6 +60,23 @@ router.route('/unCurriculares').get((req, res) => {
     });
 });
 
+router.route('/exames').get((req, res) => {
+    Exame.find((err, ex) => {
+        if (err)
+            console.log(err);
+        else
+            res.json(ex);
+    });
+});
+
+router.route('/vigias').get((req, res) => {
+    Vigias.find((err, vg) => {
+        if (err)
+            console.log(err);
+        else
+            res.json(vg);
+    });
+});
 
 
 
@@ -165,7 +185,7 @@ function bdData(path, bool){
 
     setTimeout(function() {
 
-        const workbook = xlsx.readFile(path);
+        const workbook = xlsx.readFile(path, {cellDates: true});
 
         workbook.SheetNames.forEach( async(name, l) => { 
             var sheet = workbook.Sheets[name];
@@ -190,34 +210,21 @@ function bdData(path, bool){
 async function addData(type, linha){
 
     if(type){
-
-        //console.log('Tentar adicionar Professor...');
         let professor = linha.SERVICO_DOCENTE;
         let tpProfessor = linha.TIPO_DE_PROFESSOR;
 
         var fromBD = await getProfessorByName(professor);
-            
-            //console.log('Inside function....');
 
             if(!fromBD.length){
                 return new Professor({
                     nome: professor,
                     cargo: tpProfessor
-                }).save()
-                  .then(prof => {
-                    res.status(200).json({'prof': 'Added sucessfully'});
-                })
-                .catch(err => {
-                    res.status(400).send('Falha a criar um novo professor');
-                });;
+                }).save();
             }
 
     }else {
-        //console.log('Tentar adicionar Professor...');
         var codigo_uc = linha.CODIGO_UC;
         var uc = linha.UNIDADE_CURRICULAR;
-
-        //console.log(uc);
 
         var fromBD = await getCadeiraByCodigo(codigo_uc);
 
@@ -225,19 +232,62 @@ async function addData(type, linha){
             return new UnidadeCurricular({
                 codigo: codigo_uc,
                 nome: uc
-            }).save()
-              .then(unic => {
-                res.status(200).json({'unic': 'Added sucessfully'});
-              })
-              .catch(err => {
-                res.status(400).send('Falha a criar uma nova unidade curricular');
-              });;
+            }).save();
         }
     }
 }
 
-async function addExames(){
-    console.log("here");
+async function addExames(linha){
+
+    var horaIn = getHora(linha.Hora_Inicio);
+    var horaOut = getHora(linha.Hora_Fim);
+
+    console.log(hInicio);
+    var exameCurr = await Exame.find({codigo: linha.Codigo, data: date, horaInicio: horaIn,
+        horaFim: horaOut}).exec();
+
+    if(!exameCurr.length){
+        var disciplina = await getCadeiraByCodigo(linha.Codigo);
+        var sala = addSalas(linha.Sala);
+
+
+        if(!disciplina.length){
+            disciplina = await new UnidadeCurricular({
+                codigo: linha.Codigo,
+                nome: linha.Disciplina
+            }).save();
+        }
+
+        return new Exame({
+            codigo: linha.Codigo,
+            unCurricular: disciplina._id,
+            data: date,
+            dia: linha.Dia,
+            horaInicio: horaIn,
+            horaFim: horaOut,
+            salas: sala
+        }).save();
+    }
+}
+
+function addSalas(salas){
+    var result = [];
+    salas.split('|').forEach((entry) => {
+        result.push(entry.split(' ').join(''));
+    });
+    return result;
+}
+
+function getHora(hora) {
+    var momentDate = moment(hora);
+    
+    var hour = momentDate.hours();
+    var minutes = momentDate.minutes();
+    var seconds = momentDate.seconds();
+    console.log(hour,minutes,seconds);
+    
+    // or you can use `.format`:
+    console.log(momentDate.format("hh:mm:ss"));
 }
 
 async function getProfessorByName(name) {

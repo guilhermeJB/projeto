@@ -6,7 +6,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class LinkerService {
 
-  uri = 'http://localhost:3003';
+  uri = 'http://appserver.alunos.di.fc.ul.pt:3003';
 
   constructor(private http: HttpClient) { }
 
